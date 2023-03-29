@@ -8,29 +8,29 @@
     tools:context=".MainActivity">
 
     <!-- 메인화면 constraintLayout -> (toolbar, viewpager2, tablayout)-->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.Material3.NavigationView">
+            android:theme="@style/ThemeOverlay.Material3.NavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
         </androidx.appcompat.widget.Toolbar>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/woman"
-            android:layout_gravity="center"/>
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager2"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/tabLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
@@ -40,9 +40,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:tabIndicatorGravity="top">
         </com.google.android.material.tabs.TabLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- 네비게이션 메뉴 -->
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"

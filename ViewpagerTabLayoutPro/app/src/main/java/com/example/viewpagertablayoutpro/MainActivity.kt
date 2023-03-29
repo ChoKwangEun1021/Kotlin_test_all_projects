@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.viewpagertablayoutpro.databinding.ActivityMainBinding
 import com.example.viewpagertablayoutpro.databinding.UsertabButtonBinding
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //4. 토글 sync
         toggle.syncState()
+
+        binding.navigationView.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener{
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                when(item.itemId){
+                    R.id.item_info -> Toast.makeText(applicationContext, "info", Toast.LENGTH_SHORT).show()
+                }
+                return false
+            }
+
+        })
     }
 
     fun tabCustomView(position: Int): View {
