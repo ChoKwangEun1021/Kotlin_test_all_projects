@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnCallActivity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call MainActivity2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCallActivity3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calll MainActivity3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCallActivity2" />
+    <Button
+        android:id="@+id/btnCallActivity4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calll MainActivity4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCallActivity3" />
+    <Button
+        android:id="@+id/btnCallActivity5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calll MainActivity5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCallActivity4" />
+    <Button
+        android:id="@+id/btnCallActivity6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calll MainActivity6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCallActivity5" />
+    <Button
+        android:id="@+id/btnCallActivity7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calll MainActivity7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCallActivity6" />
+</androidx.constraintlayout.widget.ConstraintLayout>
