@@ -32,4 +32,12 @@ class AddActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    //백키를 눌렀을때 발생하는 콜백함수
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        intent.putExtra("result", "")
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
 }
