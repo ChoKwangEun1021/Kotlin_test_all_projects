@@ -39,13 +39,12 @@ class MainActivity : AppCompatActivity() {
                     }
                     myAIDLInterface?.stop()
                     unbindService(serviceConnection)
-                    progressCoroutineJob?.cancel()
                     binding.messengerProgress.progress = 0
                 }
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
-                myAIDLInterface = null
+                
             }
 
         }
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.messengerStop.setOnClickListener {
             myAIDLInterface?.stop()
-//            unbindService(serviceConnection)
+            unbindService(serviceConnection)
             progressCoroutineJob?.cancel()
             binding.messengerProgress.progress = 0
         }
