@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
-                
+
             }
 
         }
