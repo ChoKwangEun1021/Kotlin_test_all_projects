@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
             buttonSave.setOnClickListener {
                 val content = editMemo.text.toString()
-                if (content.isEmpty()){
+                if (content.isNotEmpty()){
                     val datetime = System.currentTimeMillis()
                     val memo = RoomMemo(content, datetime)
                     editMemo.setText("")
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             memoList.clear()
             memoList.addAll(memoDAO.getAll())
             with(Dispatchers.Main){
-                memoAdapter.notifyDataSetChanged()
+//                memoAdapter.notifyDataSetChanged()
             }
         }
     }
