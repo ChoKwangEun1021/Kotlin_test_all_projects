@@ -84,8 +84,8 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/heart_24" />
             <ImageButton
-                android:contentDescription="before"
-                android:id="@+id/beforeButton"
+                android:contentDescription="previous"
+                android:id="@+id/previousButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/before_24"
