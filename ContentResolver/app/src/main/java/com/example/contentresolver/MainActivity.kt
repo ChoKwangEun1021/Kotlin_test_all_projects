@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     val permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
     val REQ_READ = 99
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    fun getMusicList(): List<Music>{
+    fun getMusicList(): List<Music> {
         //컨텐트 리졸버로 음원 목록 가져오기
         //1. 데이터 테이블 주소
         val musicListUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

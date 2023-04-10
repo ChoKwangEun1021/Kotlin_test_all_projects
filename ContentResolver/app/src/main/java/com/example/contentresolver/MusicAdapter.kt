@@ -10,35 +10,38 @@ import java.text.SimpleDateFormat
 
 class MusicAdapter : RecyclerView.Adapter<MusicAdapter.Holder>() {
     val musicList = mutableListOf<Music>()
-    var mediaPlayer:MediaPlayer? = null
+    var mediaPlayer: MediaPlayer? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val itemLayoutBinding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent, false)
-        return Holder(itemLayoutBinding)
+        val binding: ItemLayoutBinding =
+            ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
     }
 
-    override fun getItemCount() = musicList.size
+    override fun getItemCount(): Int {
+        return musicList.size
+    }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val music = musicList[position]
         holder.setMusic(music)
     }
 
-    inner class Holder(val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class Holder(val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         var musicUri: Uri? = null
 
         init {
-            binding.root.setOnClickListener {
-                if (mediaPlayer != null){
+            itemView.setOnClickListener {
+                if (mediaPlayer != null) {
                     mediaPlayer?.release()
                     mediaPlayer = null
                 }
-                mediaPlayer = MediaPlayer.create(binding.root.context, musicUri)
+                mediaPlayer = MediaPlayer.create(itemView.context, musicUri)
                 mediaPlayer?.start()
             }
         }
 
-        fun setMusic(music:Music){
+        fun setMusic(music: Music) {
             musicUri = music.getMusicUri()
             binding.imageAlbum.setImageURI(music.getAlbumUri())
             binding.textArtist.text = music.artist
