@@ -36,7 +36,7 @@ class MusicData(var id:String,var title:String?,var artist:String?,var albumId:S
         parcel.readString(),
         parcel.readString(),
         parcel.readLong(),
-        parcel.readInt()
+        parcel.readInt(),
     )
 
 //    var id:String = ""

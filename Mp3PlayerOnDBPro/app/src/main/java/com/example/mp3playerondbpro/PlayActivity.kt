@@ -121,24 +121,103 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                 binding.playButton.setImageResource(R.drawable.play_24)
             }
             R.id.previousButton -> {
-                mediaPlayer?.stop()
                 mp3PlayerJob?.cancel()
+                mediaPlayer?.stop()
                 binding.seekBar.progress = 0
                 binding.playDuration.text = "00:00"
 
                 val previousCurrentPosition = currentPosition - 1
-                if (previousCurrentPosition > 0) {
-                    currentPosition = playList!!.size - 1
-                }else{
+                if (previousCurrentPosition >= 0) {
                     currentPosition = previousCurrentPosition
+                    musicData = playList?.get(currentPosition) as MusicData
+                } else {
+                    // 이전 곡이 없으므로 마지막 곡을 재생
+                    currentPosition = playList!!.size - 1
+                    musicData = playList?.get(currentPosition) as MusicData
+                }
+
+                mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
+                binding.albumTitle.text = musicData.title
+                binding.albumArtist.text = musicData.artist
+                binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
+                binding.seekBar.max = mediaPlayer!!.duration
+                binding.playButton.setImageResource(R.drawable.play_24)
+                mediaPlayer?.start()
+
+                //코루틴으로 음악을 재생
+                val backgroundScope = CoroutineScope(Dispatchers.Default + Job())
+                mp3PlayerJob = backgroundScope.launch {
+                    while (mediaPlayer!!.isPlaying) {
+                        var currentPosition = mediaPlayer?.currentPosition!!
+                        //코루틴속에서 화면의 값을 변동시키고자 할때 runOnUiThread
+                        runOnUiThread {
+                            binding.seekBar.progress = currentPosition
+                            binding.playDuration.text =
+                                SimpleDateFormat("mm:ss").format(mediaPlayer?.currentPosition)
+                        }
+                        try {
+                            delay(1000)
+                        } catch (e: java.lang.Exception) {
+                            Log.e("PlayActivity", "delay 오류발생 ${e.printStackTrace()}")
+                        }
+                    }
+                    if (pauseFlag == false) {
+                        runOnUiThread {
+                            binding.seekBar.progress = 0
+                            binding.playDuration.text = "00:00"
+                            binding.playButton.setImageResource(R.drawable.pause_24)
+                        }
+                    }
                 }
             }
             R.id.nextButton -> {
-                mediaPlayer?.stop()
                 mp3PlayerJob?.cancel()
+                mediaPlayer?.stop()
                 binding.seekBar.progress = 0
                 binding.playDuration.text = "00:00"
 
+                val nextCurrentPosition = currentPosition + 1
+                if (nextCurrentPosition < playList!!.size) {
+                    currentPosition = nextCurrentPosition
+                    musicData = playList?.get(currentPosition) as MusicData
+                } else {
+                    // 다음 곡이 없으므로 첫번째 곡을 재생
+                    currentPosition = 0
+                    musicData = playList?.get(currentPosition) as MusicData
+                }
+
+                mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
+                binding.albumTitle.text = musicData.title
+                binding.albumArtist.text = musicData.artist
+                binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
+                binding.seekBar.max = mediaPlayer!!.duration
+                binding.playButton.setImageResource(R.drawable.play_24)
+                mediaPlayer?.start()
+                //코루틴으로 음악을 재생
+                val backgroundScope = CoroutineScope(Dispatchers.Default + Job())
+                mp3PlayerJob = backgroundScope.launch {
+                    while (mediaPlayer!!.isPlaying) {
+                        var currentPosition = mediaPlayer?.currentPosition!!
+                        //코루틴속에서 화면의 값을 변동시키고자 할때 runOnUiThread
+                        runOnUiThread {
+                            binding.seekBar.progress = currentPosition
+                            binding.playDuration.text =
+                                SimpleDateFormat("mm:ss").format(mediaPlayer?.currentPosition)
+                        }
+                        try {
+                            delay(1000)
+                        } catch (e: java.lang.Exception) {
+                            Log.e("PlayActivity", "delay 오류발생 ${e.printStackTrace()}")
+                        }
+                    }
+                    if (pauseFlag == false) {
+                        runOnUiThread {
+                            binding.seekBar.progress = 0
+                            binding.playDuration.text = "00:00"
+                            binding.playButton.setImageResource(R.drawable.pause_24)
+                        }
+                    }
+                }
             }
             R.id.likeButton -> {
 
@@ -153,5 +232,13 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
         mediaPlayer?.release()
         mediaPlayer = null
         finish()
+    }
+    
+    fun playMusic(){
+        
+    }
+    
+    fun setMusic(){
+        
     }
 }
