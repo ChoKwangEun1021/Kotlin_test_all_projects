@@ -92,10 +92,10 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.menu_like -> {
                 val musicDataLikeList = dbOpenHelper.selectMusicLike()
-                Log.e("MainActivity", "musicDataLikeList.size = ${musicDataLikeList!!.size}")
-                if (musicDataLikeList!!.size <= 0 || musicDataLikeList == null){
+                if (musicDataLikeList == null){
+                    Log.e("MainActivity", "musicDataLikeList.size = 0")
                     Toast.makeText(applicationContext, "좋아요한 리스트가 없습니다", Toast.LENGTH_SHORT).show()
-                }else{
+                } else{
                     musicDataList?.clear()
                     dbOpenHelper.selectMusicLike()?.let { musicDataList?.addAll(it) }
                     musicRecyclerAdapter.notifyDataSetChanged()
