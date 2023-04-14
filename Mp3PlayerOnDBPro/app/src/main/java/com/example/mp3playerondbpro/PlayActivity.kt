@@ -33,24 +33,25 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
         musicData = playList?.get(currentPosition) as MusicData
 
         //화면에 바인딩 진행
-        binding.albumTitle.text = musicData.title
-        binding.albumArtist.text = musicData.artist
+        binding.tvTitle.text = musicData.title
+        binding.tvArtist.text = musicData.artist
         binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
         binding.playDuration.text = "00:00"
         val bitmap = musicData.getAlbumBitmap(this, ALBUM_IMAGE_SIZE)
         if (bitmap != null) {
-            binding.albumImage.setImageBitmap(bitmap)
+            binding.ivMusic.setImageBitmap(bitmap)
         } else {
-            binding.albumImage.setImageResource(R.drawable.music_video_24)
+            binding.ivMusic.setImageResource(R.drawable.music_player)
         }
         //음악파일객체 가져오기
         mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
         //이벤트처리(일시정지, 실행, 돌아가기, 정지, 시크바 조절)
-        binding.listButton.setOnClickListener(this)
-        binding.playButton.setOnClickListener(this)
-        binding.stopButton.setOnClickListener(this)
-        binding.previousButton.setOnClickListener(this)
-        binding.nextButton.setOnClickListener(this)
+        binding.btnList.setOnClickListener(this)
+        binding.btnPlay.setOnClickListener(this)
+        binding.btnStop.setOnClickListener(this)
+        binding.btnPrevious.setOnClickListener(this)
+        binding.btnNext.setOnClickListener(this)
+        binding.btnSuffle.setOnClickListener(this)
         binding.seekBar.max = mediaPlayer!!.duration
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -66,21 +67,21 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.listButton -> {
+            R.id.btnList -> {
                 mp3PlayerJob?.cancel()
                 mediaPlayer?.stop()
                 mediaPlayer?.release()
                 mediaPlayer = null
                 finish()
             }
-            R.id.playButton -> {
+            R.id.btnPlay -> {
                 if (mediaPlayer!!.isPlaying) {
                     mediaPlayer?.pause()
-                    binding.playButton.setImageResource(R.drawable.play_24)
+                    binding.btnPlay.setImageResource(R.drawable.play)
                     pauseFlag = true
                 } else {
                     mediaPlayer?.start()
-                    binding.playButton.setImageResource(R.drawable.pause_24)
+                    binding.btnPlay.setImageResource(R.drawable.pause)
                     pauseFlag = false
 
                     //코루틴으로 음악을 재생
@@ -104,13 +105,13 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                             runOnUiThread {
                                 binding.seekBar.progress = 0
                                 binding.playDuration.text = "00:00"
-                                binding.playButton.setImageResource(R.drawable.play_24)
+                                binding.btnPlay.setImageResource(R.drawable.play)
                             }
                         }
                     }//end of mp3PlayerJob
                 }
             }
-            R.id.stopButton -> {
+            R.id.btnStop -> {
                 mediaPlayer?.stop()
                 mp3PlayerJob?.cancel()
                 mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
@@ -118,9 +119,9 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                 binding.playDuration.text = "00:00"
                 binding.seekBar.max = mediaPlayer!!.duration
                 binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
-                binding.playButton.setImageResource(R.drawable.play_24)
+                binding.btnPlay.setImageResource(R.drawable.play)
             }
-            R.id.previousButton -> {
+            R.id.btnPrevious -> {
                 mp3PlayerJob?.cancel()
                 mediaPlayer?.stop()
                 binding.seekBar.progress = 0
@@ -137,11 +138,11 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
-                binding.albumTitle.text = musicData.title
-                binding.albumArtist.text = musicData.artist
+                binding.tvTitle.text = musicData.title
+                binding.tvArtist.text = musicData.artist
                 binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
                 binding.seekBar.max = mediaPlayer!!.duration
-                binding.playButton.setImageResource(R.drawable.play_24)
+                binding.btnPlay.setImageResource(R.drawable.play)
                 mediaPlayer?.start()
 
                 //코루틴으로 음악을 재생
@@ -165,12 +166,12 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                         runOnUiThread {
                             binding.seekBar.progress = 0
                             binding.playDuration.text = "00:00"
-                            binding.playButton.setImageResource(R.drawable.pause_24)
+                            binding.btnPlay.setImageResource(R.drawable.pause)
                         }
                     }
                 }
             }
-            R.id.nextButton -> {
+            R.id.btnNext -> {
                 mp3PlayerJob?.cancel()
                 mediaPlayer?.stop()
                 binding.seekBar.progress = 0
@@ -187,11 +188,11 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri())
-                binding.albumTitle.text = musicData.title
-                binding.albumArtist.text = musicData.artist
+                binding.tvTitle.text = musicData.title
+                binding.tvArtist.text = musicData.artist
                 binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration)
                 binding.seekBar.max = mediaPlayer!!.duration
-                binding.playButton.setImageResource(R.drawable.play_24)
+                binding.btnPlay.setImageResource(R.drawable.play)
                 mediaPlayer?.start()
                 //코루틴으로 음악을 재생
                 val backgroundScope = CoroutineScope(Dispatchers.Default + Job())
@@ -214,12 +215,12 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                         runOnUiThread {
                             binding.seekBar.progress = 0
                             binding.playDuration.text = "00:00"
-                            binding.playButton.setImageResource(R.drawable.pause_24)
+                            binding.btnPlay.setImageResource(R.drawable.pause)
                         }
                     }
                 }
             }
-            R.id.likeButton -> {
+            R.id.ivItemLike -> {
 
             }
         }

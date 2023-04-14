@@ -27,7 +27,7 @@ class MusicRecyclerAdapter(val context: Context, val musicList: MutableList<Musi
         if (bitmap != null) {
             binding.imageAlbum.setImageBitmap(bitmap)
         }else {
-            binding.imageAlbum.setImageResource(R.drawable.music_video_24)
+            binding.imageAlbum.setImageResource(R.drawable.music_player)
         }
         binding.textArtist.text = musicList.get(position).artist
         binding.textTitle.text = musicList.get(position).title
