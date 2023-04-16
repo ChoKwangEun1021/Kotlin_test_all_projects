@@ -7,9 +7,11 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import com.example.mp3playerondbpro.databinding.ActivityPlayBinding
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
+import java.util.Collections.shuffle
 
 class PlayActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityPlayBinding
@@ -21,6 +23,7 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
     private var playList: MutableList<Parcelable>? = null
     private var currentPosition: Int = 0
     private var shuffle = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,15 +119,15 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                     musicData = playList?.get(currentPosition) as MusicData
                 }
 
-                if (shuffle){
-                    val mix = (Math.random() * playList?.size!! + 1).toInt()
-                    currentPosition += mix
-                    if (currentPosition > playList?.size!!){
-                        currentPosition -= playList?.size!!
-                    }
-                }
-
-                musicData = playList?.get(currentPosition) as MusicData
+//                if (shuffle){
+//                    val mix = (Math.random() * playList?.size!! + 1).toInt()
+//                    currentPosition += mix
+//                    if (currentPosition > playList?.size!!){
+//                        currentPosition -= playList?.size!!
+//                    }
+//                }
+//
+//                musicData = playList?.get(currentPosition) as MusicData
                 setMusic(musicData)
                 playMusic()
 
@@ -145,15 +148,15 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
                     musicData = playList?.get(currentPosition) as MusicData
                 }
 
-                if (shuffle){
-                    val mix = (Math.random() * playList?.size!! + 1).toInt()
-                    currentPosition += mix
-                    if (currentPosition > playList?.size!!){
-                        currentPosition -= playList?.size!!
-                    }
-                }
-
-                musicData = playList?.get(currentPosition) as MusicData
+//                if (shuffle){
+//                    val mix = (Math.random() * playList?.size!! + 1).toInt()
+//                    currentPosition += mix
+//                    if (currentPosition > playList?.size!!){
+//                        currentPosition -= playList?.size!!
+//                    }
+//                }
+//
+//                musicData = playList?.get(currentPosition) as MusicData
                 setMusic(musicData)
                 playMusic()
             }
@@ -161,9 +164,29 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.btnSuffle -> {
-
+                shuffle = !shuffle // shuffle 상태 변경
+                if (shuffle) {
+                    binding.btnSuffle.setImageResource(R.drawable.shuffle_on_24) // shuffle 상태 이미지 변경
+                    shuffle() // shuffle 함수 실행
+                } else {
+                    binding.btnSuffle.setImageResource(R.drawable.shuffle_off) // shuffle 상태 이미지 변경
+                }
             }
         }
+    }
+
+    private fun shuffle() {
+        mp3PlayerJob?.cancel()
+        mediaPlayer?.stop()
+        playList?.shuffle() // playList를 무작위로 섞음
+        currentPosition = 0 // 현재 위치를 첫 번째 곡으로 지정
+        musicData = playList?.get(currentPosition) as MusicData // 현재 재생 중인 노래 정보 갱신
+        setMusic(musicData) // 노래 정보 화면에 표시
+        mediaPlayer?.reset()
+        mediaPlayer = MediaPlayer.create(this, musicData.getMusicUri()) // 노래 재생
+        mediaPlayer?.start()
+        binding.btnPlay.setImageResource(R.drawable.pause) // 플레이 버튼 이미지 변경
+        binding.totalDuration.text = SimpleDateFormat("mm:ss").format(musicData.duration) // 총 재생 시간 표시
     }
 
     override fun onBackPressed() {
@@ -211,4 +234,5 @@ class PlayActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnPlay.setImageResource(R.drawable.play)
         mediaPlayer?.start()
     }
+
 }
